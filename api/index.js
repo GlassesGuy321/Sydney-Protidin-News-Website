@@ -101,6 +101,41 @@ app.post('/post', uploadMiddleware.single('file'), async (req, res) => {
     
 })
 
+app.put('/post', uploadMiddleware.single('file'), async (req, res) => {
+    const {id, title, summary, imageLink, content} = req.body;
+
+    let newPath = 'undefined';
+    if (req.file) {
+        const {originalname,path} = req.file;
+        const parts = originalname.split('.');
+        const ext = parts[parts.length - 1];
+        newPath = path+'.'+ext;
+        fs.renameSync(path, newPath);
+    }
+
+    const {token} = req.cookies;
+    jwt.verify(token, secret, {}, async (err, info) => {
+        if (err) {
+            return res.status(403).json({ error: 'Invalid or expired token' });
+        }
+        let postDoc = await Post.findById(id);
+        const isAuthor = JSON.stringify(postDoc.author) === JSON.stringify(info.id);
+        if (!isAuthor) {
+            return res.status(400).json('You are not the author!');
+        }
+        await Post.findByIdAndUpdate(id, {
+            title, 
+            summary, 
+            imageLink, 
+            content,
+            cover: newPath ? newPath : postDoc.cover,
+        });
+        postDoc = await Post.findById(id);
+        res.json(postDoc)
+    })
+
+})
+
 app.get('/post', async (req, res) => {
     res.json(
         await Post.find()
