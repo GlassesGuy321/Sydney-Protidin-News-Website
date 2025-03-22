@@ -49,11 +49,17 @@ app.post('/login', async (req, res) => {
 
 app.get('/profile', (req, res) => {
     const {token} = req.cookies;
+    
+    if (!token) {
+        return res.status(401).json({ error: 'No token provided' });
+    }
+    
     jwt.verify(token, secret, {}, (err, info) => {
-        if (err) throw err;
+        if (err) {
+            return res.status(403).json({ error: 'Invalid or expired token' });
+        }
         res.json(info);
     })
-    res.json(req.cookies);
 })
 
 app.post('/logout', (req, res) => {
