@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-require('dotenv').config()
 import Post from "../Post";
 
 export default function IndexPage() {

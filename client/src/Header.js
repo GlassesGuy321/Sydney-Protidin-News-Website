@@ -1,7 +1,6 @@
 import { useContext, useEffect } from 'react';
 import {Link} from 'react-router-dom';
 import { UserContext } from './UserContext';
-require('dotenv').config()
 
 export default function Header() {
     const {setUserInfo, userInfo} = useContext(UserContext);

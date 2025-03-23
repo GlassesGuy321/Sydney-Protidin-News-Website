@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { Navigate, useParams } from 'react-router-dom';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
-require('dotenv').config()
 
 const modules = {
     toolbar: [

@@ -2,7 +2,6 @@ import { format } from "date-fns";
 import { useContext, useEffect, useState } from "react"
 import { useParams, Link } from "react-router-dom";
 import { UserContext } from "../UserContext";
-require('dotenv').config()
 
 export default function PostPage() {
     const [postInfo,setPostInfo] = useState(null);
