@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
-
+require('dotenv').config()
 import Post from "../Post";
 
 export default function IndexPage() {
     const [posts, setPosts] = useState([]);
     useEffect(() => {
-        fetch('http://localhost:4000/post').then(response => {
+        fetch(`${process.env.BACKEND_URL}/post`).then(response => {
             response.json().then(posts => {
                 setPosts(posts);
             })

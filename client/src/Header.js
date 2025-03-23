@@ -1,11 +1,12 @@
 import { useContext, useEffect } from 'react';
 import {Link} from 'react-router-dom';
 import { UserContext } from './UserContext';
+require('dotenv').config()
 
 export default function Header() {
     const {setUserInfo, userInfo} = useContext(UserContext);
     useEffect(() => {
-        fetch('http://localhost:4000/profile', {
+        fetch(`${process.env.BACKEND_URL}/profile`, {
             credentials: 'include',
         }).then(response => {
             response.json().then(userInfo => {
@@ -15,7 +16,7 @@ export default function Header() {
     }, [setUserInfo]);
 
     function logout() {
-        fetch('http://localhost:4000/logout', {
+        fetch(`${process.env.BACKEND_URL}/logout`, {
             credentials:'include',
             method: 'POST',
         });
