@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { Navigate, useParams } from 'react-router-dom';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
@@ -22,6 +22,7 @@ const formats = [
 
 export default function EditPost() {
     const {id} = useParams();
+    const quillRef = useRef();
     const [title, setTitle] = useState('');
     const [summary, setSummary] = useState('');
     const [imageLink, setImageLink] = useState('');
@@ -83,6 +84,7 @@ export default function EditPost() {
             <input type='file' 
                 onChange={ev => setFiles(ev.target.files)}/>
             <ReactQuill 
+                ref={quillRef}
                 value={content} 
                 onChange={newValue => setContent(newValue)}
                 modules={modules} 

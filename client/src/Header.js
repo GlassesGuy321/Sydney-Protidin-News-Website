@@ -5,14 +5,16 @@ import { UserContext } from './UserContext';
 export default function Header() {
     const {setUserInfo, userInfo} = useContext(UserContext);
     useEffect(() => {
-        console.log(`${process.env.REACT_APP_BACKEND_URL}/post`)
         fetch(`${process.env.REACT_APP_BACKEND_URL}/profile`, {
             credentials: 'include',
-        }).then(response => {
-            response.json().then(userInfo => {
+        })
+        .then(response => response.json())
+        .then(userInfo => {
+            if (userInfo) {
                 setUserInfo(userInfo);
-            });
-        });
+            }
+        })
+        .catch(error => console.error("Error fetching profile:", error));
     }, [setUserInfo]);
 
     function logout() {

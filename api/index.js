@@ -17,7 +17,7 @@ const port = process.env.PORT || 4000;
 const salt = bcrypt.genSaltSync(10);
 const secret = process.env.SECRET;
 
-app.use(cors({credentials:true,origin:`${process.env.FRONTEND_URL}`}));
+app.use(cors({origin:`${process.env.FRONTEND_URL}`, credentials:true, }));
 app.use(express.json());
 app.use(cookieParser());
 app.use('/uploads', express.static(__dirname + '/uploads'));
@@ -59,7 +59,7 @@ app.get('/profile', (req, res) => {
     const {token} = req.cookies;
     
     if (!token) {
-        return res.status(401).json({ error: 'No token provided' });
+        return res.json(null);
     }
     
     jwt.verify(token, secret, {}, (err, info) => {
@@ -153,7 +153,6 @@ app.get('/post/:id', async (req, res) => {
     const postDoc = await Post.findById(id).populate('author', ['username']);
     res.json(postDoc);
 })
-
 
 app.listen(4000);
 // mongodb+srv://blog:ZIaHR7FP9stooSho@cluster0.uqfaw.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
