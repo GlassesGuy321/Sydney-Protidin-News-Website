@@ -31,24 +31,32 @@ export default function Header() {
 
     return (
         <header>
-            <Link to="/" className="logo">সিডনি প্রতিদিন</Link>
-            <nav>
-                {username && (
-                    <>
-                        {tags.map(tag => (
-                            <Link key={tag} to={`/${tag}`}>{tag}</Link>
-                        ))}
-                        <Link to="/create">Create new post</Link>
-                        <Link to ='/' onClick={logout}>Logout</Link>
-                    </>
-                )}
-                {!username && (
-                    <>
-                        <Link to="/login">Login</Link>
-                        <Link to="/register">Register</Link>
-                    </>
-                )}
-            </nav>
+            <section className="top">
+                <img src="SPBanner2.png" alt="banner"/>
+            </section>
+            <section className='bottom'>
+                <Link to="/" className="logo">সিডনি প্রতিদিন</Link>
+                <nav>
+                    {username && (
+                        <>
+                            {tags.map(tag => (
+                                <Link key={tag} to={`/${tag}`}>{tag}</Link>
+                            ))}
+                            <Link to="/create">Create new post</Link>
+                            <Link to ='/' onClick={logout}>Logout</Link>
+                        </>
+                    )}
+                    {!username && (
+                        <>
+                            {tags.map(tag => (
+                                <Link key={tag} to={`/${tag}`}>{tag}</Link>
+                            ))}
+                            <Link to="/login">Login</Link>
+                            <Link to="/register">Register</Link>
+                        </>
+                    )}
+                </nav>
+            </section>
         </header>
     );
 }
