@@ -17,7 +17,7 @@ const port = process.env.PORT || 4000;
 const salt = bcrypt.genSaltSync(10);
 const secret = process.env.SECRET;
 
-app.use(cors({credentials:true,origin:'https://sydney-protidin-news-website-frontend.onrender.com'}));
+app.use(cors({credentials:true,origin:`${process.env.FRONTEND_URL}`}));
 app.use(express.json());
 app.use(cookieParser());
 app.use('/uploads', express.static(__dirname + '/uploads'));
