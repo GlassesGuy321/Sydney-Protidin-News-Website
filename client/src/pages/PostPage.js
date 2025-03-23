@@ -8,7 +8,7 @@ export default function PostPage() {
     const {userInfo} = useContext(UserContext);
     const {id} = useParams();
     useEffect(() => {
-        fetch(`${process.env.BACKEND_URL}/post/${id}`)
+        fetch(`${process.env.REACT_APP_BACKEND_URL}/post/${id}`)
             .then(response => {
                 response.json().then(postInfo => {
                 setPostInfo(postInfo);
