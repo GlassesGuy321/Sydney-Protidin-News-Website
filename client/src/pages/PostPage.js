@@ -8,13 +8,13 @@ export default function PostPage() {
     const {userInfo} = useContext(UserContext);
     const {id} = useParams();
     useEffect(() => {
-        fetch(`${process.env.BACKEND_URL}/post${id}`)
+        fetch(`${process.env.BACKEND_URL}/post/${id}`)
             .then(response => {
                 response.json().then(postInfo => {
                 setPostInfo(postInfo);
                 });
             });
-    }, []);
+    }, [id]);
 
     if (!postInfo) return 'bruh';
     
