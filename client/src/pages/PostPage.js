@@ -16,7 +16,7 @@ export default function PostPage() {
             });
     }, [id]);
 
-    if (!postInfo) return 'bruh';
+    if (!postInfo) return '';
     
     return (
         <div className="post-page">
