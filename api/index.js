@@ -4,13 +4,15 @@ const mongoose = require('mongoose');
 const User = require('./models/User');
 const Post = require('./models/Post')
 const bcrypt = require('bcryptjs');
-const app = express();
 const jwt = require('jsonwebtoken');
 const cookieParser = require('cookie-parser');
 const multer = require('multer');
 const uploadMiddleware = multer({ dest: 'uploads/' });
 const fs = require('fs');
 require('dotenv').config()
+
+const app = express();
+const port = process.env.PORT || 4000;
 
 const salt = bcrypt.genSaltSync(10);
 const secret = process.env.SECRET;
