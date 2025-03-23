@@ -75,7 +75,8 @@ app.post('/logout', (req, res) => {
 })
 
 app.post('/post', uploadMiddleware.single('file'), async (req, res) => {
-    const {title, summary, imageLink, content} = req.body;
+    const {title, tags, summary, imageLink, content} = req.body;
+    const tagArray = JSON.parse(req.body.tags || '[]');
 
     let newPath = 'undefined';
     if (req.file) {
@@ -93,6 +94,7 @@ app.post('/post', uploadMiddleware.single('file'), async (req, res) => {
         }
         const postDoc = await Post.create({
             title,
+            tagArray,
             summary,
             imageLink,
             content,
@@ -105,7 +107,8 @@ app.post('/post', uploadMiddleware.single('file'), async (req, res) => {
 })
 
 app.put('/post', uploadMiddleware.single('file'), async (req, res) => {
-    const {id, title, summary, imageLink, content} = req.body;
+    const {id, tags, title, summary, imageLink, content} = req.body;
+    const parsedTags = tags ? JSON.parse(tags) : [];
 
     let newPath = 'undefined';
     if (req.file) {
@@ -118,23 +121,29 @@ app.put('/post', uploadMiddleware.single('file'), async (req, res) => {
 
     const {token} = req.cookies;
     jwt.verify(token, secret, {}, async (err, info) => {
-        if (err) {
-            return res.status(403).json({ error: 'Invalid or expired token' });
+        if (err) return res.status(403).json({ error: 'Invalid or expired token' });
+
+        const postDoc = await Post.findById(id);
+        if (!postDoc) return res.status(404).json({ error: 'Post not found' });
+
+        if (postDoc?.author?.toString() !== info.id) {
+            return res.status(403).json({ error: 'You are not the author!' });
         }
-        let postDoc = await Post.findById(id);
-        const isAuthor = JSON.stringify(postDoc.author) === JSON.stringify(info.id);
-        if (!isAuthor) {
-            return res.status(400).json('You are not the author!');
-        }
-        await Post.findByIdAndUpdate(id, {
-            title, 
-            summary, 
-            imageLink, 
-            content,
-            cover: newPath ? newPath : postDoc.cover,
-        });
-        postDoc = await Post.findById(id);
-        res.json(postDoc)
+        
+        const updatedPost = await Post.findByIdAndUpdate(
+            id,
+            {
+                title,
+                tags: parsedTags,
+                summary,
+                imageLink,
+                content,
+                cover: newPath || postDoc.cover,
+            },
+            { new: true }
+        );
+
+        res.json(updatedPost);
     })
 
 })

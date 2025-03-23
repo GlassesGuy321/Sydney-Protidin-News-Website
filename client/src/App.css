@@ -92,6 +92,16 @@ form.login, form.register {
   margin: 0 auto;
 }
 
+textarea {
+  display: block;
+  margin-bottom: 5px;
+  width: 100%;
+  padding: 5px 7px;
+  border: 2px solid #ccc;
+  border-radius: 5px;
+  background-color: #fff;
+}
+
 input {
   display: block;
   margin-bottom: 5px;
@@ -119,6 +129,16 @@ form.login h1, form.register h1 {
 
 button.create-post {
   margin-top: 5px;
+}
+
+div.post-page div.tags-list {
+  display: flex;
+  justify-content: flex-start;
+  gap: 10px;
+}
+
+div.post-page div.tags-list a {
+  color: red;
 }
 
 div.post-page h1 {
@@ -175,4 +195,24 @@ div.post-page a {
 
 div.post-page div.content p {
   line-height: 1.6rem;
+}
+
+div.post-page div.content img {
+  width: 100%;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  object-fit: contain;
+}
+
+div.tag-select {
+  display: flex;
+  justify-content: space-around;
+}
+
+div.tag-select label {
+  display: flex;
+  justify-content: space-around;
+  font-size: 0.8rem;
+  align-items: center;
 }

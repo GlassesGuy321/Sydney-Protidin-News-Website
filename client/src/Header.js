@@ -27,13 +27,17 @@ export default function Header() {
 
     const username = userInfo?.username;
 
+    const tags = ["Technology", "Health", "Finance", "Education", "Entertainment"];
+
     return (
         <header>
             <Link to="/" className="logo">সিডনি প্রতিদিন</Link>
             <nav>
                 {username && (
                     <>
-                        <span> <i>Hello, {username}</i> </span>
+                        {tags.map(tag => (
+                            <Link key={tag} to={`/${tag}`}>{tag}</Link>
+                        ))}
                         <Link to="/create">Create new post</Link>
                         <Link to ='/' onClick={logout}>Logout</Link>
                     </>
