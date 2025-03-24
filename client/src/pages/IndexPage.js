@@ -13,8 +13,6 @@ export default function IndexPage() {
         })
     }, [])
 
-
-
     return (
         <>
             <div className="top-section">

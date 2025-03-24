@@ -6,7 +6,7 @@ import { marked } from 'marked';
 import DOMPurify from "dompurify";
 
 export default function PostPage() {
-    const [postInfo,setPostInfo] = useState('');
+    const [postInfo,setPostInfo] = useState(null);
     const {userInfo} = useContext(UserContext);
     const {id} = useParams();
     useEffect(() => {
