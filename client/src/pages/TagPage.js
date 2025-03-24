@@ -18,6 +18,9 @@ export default function TagPage() {
 
     return (
         <>
+            <div className="tag-headline">
+                <h2>{tag}</h2>    
+            </div>            
             {filteredPosts.length > 0 ? (
                 filteredPosts.map(post => <Post key={post._id} {...post} />)
             ) : (
