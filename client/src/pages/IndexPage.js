@@ -37,7 +37,7 @@ export default function IndexPage() {
             </div>
 
             {posts.length > 0 && posts
-                .slice(0, 1)  // This ensures only the first/latest post is shown
+                .slice(0, 1) 
                 .map(post => (
                     <Card key={post._id} {...post} isLatest={true} />
                 ))
@@ -51,13 +51,17 @@ export default function IndexPage() {
                                 <h2>{tag}</h2>    
                             </Link>
                         </div>
-                        {posts.length > 0 && posts
-                            .filter(post => post.tags.includes(tag)) // Filter posts by tag
-                            .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)) // Sort by date (newest first)
-                            .slice(0, 3) // Limit to the first 3 posts
-                            .map(post => (
-                                <Card key={post._id} {...post} />
-                        ))}
+                        {posts.filter(post => post.tags.includes(tag)).length > 0 ? (
+                            posts
+                                .filter(post => post.tags.includes(tag)) 
+                                .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)) 
+                                .slice(0, 3)
+                                .map(post => (
+                                    <Card key={post._id} {...post} />
+                                ))
+                        ) : (
+                            <p>No posts found for this tag.</p>
+                        )}
                     </div>
                 ))}
             </div>
