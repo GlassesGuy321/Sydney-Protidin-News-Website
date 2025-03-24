@@ -9,7 +9,6 @@ export default function EditPost() {
     const tags = ['Technology', 'Health', 'Finance', 'Education', 'Entertainment'];
     const [summary, setSummary] = useState('');
     const [imageLink, setImageLink] = useState('');
-    const [files, setFiles] = useState([]);
     const [content, setContent] = useState('');
     const [redirect, setRedirect] = useState(false);
 
@@ -41,9 +40,7 @@ export default function EditPost() {
         data.set('imageLink', imageLink);
         data.set('content', content);
         data.set('id', id)
-        if (files?.[0]) {
-            data.set('file', files?.[0]);
-        }
+
         const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/post`, {
             method: 'PUT',
             body: data,

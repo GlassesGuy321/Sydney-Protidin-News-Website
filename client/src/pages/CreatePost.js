@@ -8,7 +8,6 @@ export default function CreatePost() {
     const tags = ['Technology', 'Health', 'Finance', 'Education', 'Entertainment'];
     const [summary, setSummary] = useState('');
     const [imageLink, setImageLink] = useState('');
-    const [files, setFiles] = useState([]);
     const [content, setContent] = useState('');
     const [redirect, setRedirect] = useState(false);
 
@@ -26,7 +25,6 @@ export default function CreatePost() {
         data.set('summary', summary);
         data.set('imageLink', imageLink);
         data.set('content', content);
-        data.set('file', files[0])
         ev.preventDefault();
         const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/post`, {
             method: 'POST',
@@ -70,8 +68,6 @@ export default function CreatePost() {
                 placeholder={'Image Link'}
                 value={imageLink} 
                 onChange={ev => setImageLink(ev.target.value)}/>
-            <input type='file' 
-                onChange={ev => setFiles(ev.target.files)}/>
             <MDEditor 
                 value={content} 
                 height="100%"

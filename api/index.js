@@ -9,6 +9,7 @@ const cookieParser = require('cookie-parser');
 const multer = require('multer');
 const uploadMiddleware = multer({ dest: 'uploads/' });
 const fs = require('fs');
+const { parse } = require('path');
 require('dotenv').config()
 
 const app = express();
@@ -76,16 +77,7 @@ app.post('/logout', (req, res) => {
 
 app.post('/post', uploadMiddleware.single('file'), async (req, res) => {
     const {title, tags, summary, imageLink, content} = req.body;
-    const tagArray = JSON.parse(req.body.tags || '[]');
-
-    let newPath = 'undefined';
-    if (req.file) {
-        const {originalname,path} = req.file;
-        const parts = originalname.split('.');
-        const ext = parts[parts.length - 1];
-        newPath = path+'.'+ext;
-        fs.renameSync(path, newPath);
-    }
+    const parsedTags = tags ? JSON.parse(req.body.tags || '[]') : [];
 
     const {token} = req.cookies;
     jwt.verify(token, secret, {}, async (err, info) => {
@@ -94,11 +86,10 @@ app.post('/post', uploadMiddleware.single('file'), async (req, res) => {
         }
         const postDoc = await Post.create({
             title,
-            tagArray,
+            tags: parsedTags,
             summary,
             imageLink,
             content,
-            cover: newPath,
             author: info.id,
         })
         res.json(postDoc);
@@ -109,15 +100,6 @@ app.post('/post', uploadMiddleware.single('file'), async (req, res) => {
 app.put('/post', uploadMiddleware.single('file'), async (req, res) => {
     const {id, tags, title, summary, imageLink, content} = req.body;
     const parsedTags = tags ? JSON.parse(tags) : [];
-
-    let newPath = 'undefined';
-    if (req.file) {
-        const {originalname,path} = req.file;
-        const parts = originalname.split('.');
-        const ext = parts[parts.length - 1];
-        newPath = path+'.'+ext;
-        fs.renameSync(path, newPath);
-    }
 
     const {token} = req.cookies;
     jwt.verify(token, secret, {}, async (err, info) => {
@@ -138,7 +120,6 @@ app.put('/post', uploadMiddleware.single('file'), async (req, res) => {
                 summary,
                 imageLink,
                 content,
-                cover: newPath || postDoc.cover,
             },
             { new: true }
         );
@@ -164,5 +145,3 @@ app.get('/post/:id', async (req, res) => {
 })
 
 app.listen(4000);
-// mongodb+srv://blog:ZIaHR7FP9stooSho@cluster0.uqfaw.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
-// ZIaHR7FP9stooSho
