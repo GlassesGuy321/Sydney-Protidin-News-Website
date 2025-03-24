@@ -20,8 +20,6 @@ export default function PostPage() {
 
     if (!postInfo) return '';
     
-    console.log(postInfo.author.username);
-
     function formatMarkdown(content) {
         return DOMPurify.sanitize(marked(content, { gfm: true, breaks: true }));
     }
