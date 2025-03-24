@@ -22,27 +22,75 @@ main {
 }
 
 header {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 20px;
-  margin-bottom: 50px;
-  align-items: center;
+  color: white;
 }
 
-header a{
+.top {
+  margin: 0px;
+}
+
+.top img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.bottom {
+  display: flex;
+  justify-content: space-between;
+  padding:10px;
+  align-items: center;
+  background-color: #c80000;
+}
+
+.bottom a{
   text-decoration: none;
   color: inherit;
 }
 
-header a.logo {
+.bottom a.logo {
   font-weight: bold;
   font-size: 1.5rem;
 }
 
-header nav {
+.bottom nav {
   display: flex;
   gap: 15px;
 }
+
+.top-section {
+  display: flex;
+  margin-bottom: 50px;
+  border-bottom: 0.1px solid #dddddd;
+  background-color: white;
+}
+
+.left-caption {
+  background-color: #dddddd;
+  padding: 10px;
+  width: 15%;
+  text-align: center;
+  align-self: center;
+  font-weight: 800;
+}
+
+.top-news { 
+  margin: 0;
+  padding: 10px;
+}
+
+.top-news a {
+  color: #c80000;
+  text-decoration: none;
+  font-weight: 500;
+  margin-left: 50px;
+}
+
+.top-news a:hover {
+  color: inherit;
+  text-decoration: underline;
+}
+
 
 section.post {
   display: grid;
@@ -92,6 +140,16 @@ form.login, form.register {
   margin: 0 auto;
 }
 
+textarea {
+  display: block;
+  margin-bottom: 5px;
+  width: 100%;
+  padding: 5px 7px;
+  border: 2px solid #ccc;
+  border-radius: 5px;
+  background-color: #fff;
+}
+
 input {
   display: block;
   margin-bottom: 5px;
@@ -119,6 +177,20 @@ form.login h1, form.register h1 {
 
 button.create-post {
   margin-top: 5px;
+}
+
+div.post-page {
+  margin-top: 15px;
+}
+
+div.post-page div.tags-list {
+  display: flex;
+  justify-content: flex-start;
+  gap: 10px;
+}
+
+div.post-page div.tags-list a {
+  color: red;
 }
 
 div.post-page h1 {
@@ -175,4 +247,24 @@ div.post-page a {
 
 div.post-page div.content p {
   line-height: 1.6rem;
+}
+
+div.post-page div.content img {
+  width: 100%;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  object-fit: contain;
+}
+
+div.tag-select {
+  display: flex;
+  justify-content: space-around;
+}
+
+div.tag-select label {
+  display: flex;
+  justify-content: space-around;
+  font-size: 0.8rem;
+  align-items: center;
 }

@@ -2,6 +2,8 @@ import { format } from "date-fns";
 import { useContext, useEffect, useState } from "react"
 import { useParams, Link } from "react-router-dom";
 import { UserContext } from "../UserContext";
+import { marked } from 'marked';
+import DOMPurify from "dompurify";
 
 export default function PostPage() {
     const [postInfo,setPostInfo] = useState(null);
@@ -11,15 +13,24 @@ export default function PostPage() {
         fetch(`${process.env.REACT_APP_BACKEND_URL}/post/${id}`)
             .then(response => {
                 response.json().then(postInfo => {
-                setPostInfo(postInfo);
+                    setPostInfo(postInfo);
                 });
             });
     }, [id]);
 
-    if (!postInfo) return 'bruh';
+    if (!postInfo) return '';
     
+    function formatMarkdown(content) {
+        return DOMPurify.sanitize(marked(content, { gfm: true, breaks: true }));
+    }
+
     return (
         <div className="post-page">
+            <div className='tags-list'>
+                {postInfo.tags.length > 0 && postInfo.tags.map(tag => (
+                    <Link key={tag} to={`/${tag}`}>{tag}</Link>
+                ))}
+            </div>
             <h1>{postInfo.title}</h1>
             <div className="credentials">
                 <time>{format(new Date(postInfo.createdAt), 'MMM d, yyyy HH:mm')}</time>
@@ -39,7 +50,7 @@ export default function PostPage() {
             <div className="image">
                 <img src={postInfo.imageLink} alt={postInfo.title}/>
             </div>
-            <div className="content" dangerouslySetInnerHTML={{__html:postInfo.content}} />
+            <div className="content" dangerouslySetInnerHTML={{__html:formatMarkdown(postInfo.content)}} />
         </div>
     )
 }

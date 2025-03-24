@@ -1,36 +1,28 @@
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 import { Navigate } from 'react-router-dom';
-import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
-
-const modules = {
-    toolbar: [
-      [{ 'header': [1, 2, false] }],
-      ['bold', 'italic', 'underline','strike', 'blockquote'],
-      [{'list': 'ordered'}, {'list': 'bullet'}, {'indent': '-1'}, {'indent': '+1'}],
-      ['link', 'image'],
-      ['clean']
-    ],
-};
-const formats = [
-    'header',
-    'bold', 'italic', 'underline', 'strike', 'blockquote',
-    'list', 'bullet', 'indent',
-    'link', 'image'
-];
+import MDEditor from '@uiw/react-md-editor'
 
 export default function CreatePost() {
-    const quillRef = useRef();
     const [title, setTitle] = useState('');
+    const [selectedTags, setSelectedTags] = useState([]);
+    const tags = ['Technology', 'Health', 'Finance', 'Education', 'Entertainment'];
     const [summary, setSummary] = useState('');
     const [imageLink, setImageLink] = useState('');
     const [files, setFiles] = useState([]);
     const [content, setContent] = useState('');
     const [redirect, setRedirect] = useState(false);
 
+    function handleTagChange(ev) {
+        const { value, checked } = ev.target;
+        setSelectedTags(prev => 
+            checked ? [...prev, value] : prev.filter(tag => tag !== value)
+        );
+    }
+
     async function createNewPost(ev) {
         const data = new FormData();
         data.set('title', title);
+        data.set('tags', JSON.stringify(selectedTags));
         data.set('summary', summary);
         data.set('imageLink', imageLink);
         data.set('content', content);
@@ -57,6 +49,19 @@ export default function CreatePost() {
                 placeholder={'Title'} 
                 value={title} 
                 onChange={ev => setTitle(ev.target.value)}/>
+            <div className='tag-select'>
+                {tags.map(tag => (
+                    <label key={tag}>
+                        {tag}
+                        <input
+                            type="checkbox"
+                            value={tag}
+                            checked={selectedTags.includes(tag)}
+                            onChange={handleTagChange}
+                        />
+                    </label>
+                ))}
+            </div>
             <input type="summary" 
                 placeholder={'Summary'}
                 value={summary} 
@@ -67,12 +72,11 @@ export default function CreatePost() {
                 onChange={ev => setImageLink(ev.target.value)}/>
             <input type='file' 
                 onChange={ev => setFiles(ev.target.files)}/>
-            <ReactQuill 
-                ref={quillRef}
+            <MDEditor 
                 value={content} 
-                onChange={newValue => setContent(newValue)}
-                modules={modules} 
-                formats={formats}/>
+                height="100%"
+                data-color-mode="light"
+                onChange={newValue => setContent(newValue)}/>
             <button className='create-post'>Create Post</button>
         </form>
     )
