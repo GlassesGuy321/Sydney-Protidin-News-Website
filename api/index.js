@@ -6,10 +6,6 @@ const Post = require('./models/Post')
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const cookieParser = require('cookie-parser');
-const multer = require('multer');
-const uploadMiddleware = multer({ dest: 'uploads/' });
-const fs = require('fs');
-const { parse } = require('path');
 require('dotenv').config()
 
 const app = express();
@@ -21,7 +17,6 @@ const secret = process.env.SECRET;
 app.use(cors({origin:`${process.env.FRONTEND_URL}`, credentials:true, }));
 app.use(express.json());
 app.use(cookieParser());
-app.use('/uploads', express.static(__dirname + '/uploads'));
 
 mongoose.connect(`${process.env.MONGOOSE_API_KEY}`);
 
@@ -45,8 +40,12 @@ app.post('/login', async (req, res) => {
         if (bcrypt.compareSync(password, userDoc.password)) {
             jwt.sign({username,id:userDoc._id}, secret, {}, (err, token) => {
                 if (err) throw err;
-                res.cookie('token', token).json({
-                    id:userDoc._id,
+                res.cookie('token', token, {
+                    httpOnly: true,
+                    secure: true, // Enforces HTTPS (MUST be true in production)
+                    sameSite: 'None' // Required for cross-origin cookies
+                }).json({
+                    id: userDoc._id,
                     username,
                 });
             })
@@ -75,7 +74,7 @@ app.post('/logout', (req, res) => {
     res.cookie('token', '').json('ok');
 })
 
-app.post('/post', uploadMiddleware.single('file'), async (req, res) => {
+app.post('/post', async (req, res) => {
     const {title, tags, summary, imageLink, content} = req.body;
     const parsedTags = tags ? JSON.parse(req.body.tags || '[]') : [];
 
@@ -97,7 +96,7 @@ app.post('/post', uploadMiddleware.single('file'), async (req, res) => {
     
 })
 
-app.put('/post', uploadMiddleware.single('file'), async (req, res) => {
+app.put('/post', async (req, res) => {
     const {id, tags, title, summary, imageLink, content} = req.body;
     const parsedTags = tags ? JSON.parse(tags) : [];
 
