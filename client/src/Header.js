@@ -45,7 +45,7 @@ export default function Header() {
     return (
         <header>
             <section className="top">
-                <img src="SPBanner2.png" alt="banner"/>
+                <img src="/SPBanner2.png" alt="banner"/>
             </section>
             <section className='bottom'>
                 <Link to="/" className="logo">সিডনি প্রতিদিন</Link>

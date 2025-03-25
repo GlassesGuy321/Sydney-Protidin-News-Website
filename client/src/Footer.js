@@ -14,7 +14,7 @@ export default function Footer() {
         <footer>
             <div className="footer-section">
                 <h3>
-                    <img src="logo192.png" width={"32px"} height={"32px"}/>
+                    <img src="/logo192.png" width={"32px"} height={"32px"}/>
                     About us
                 </h3>
                 <p>
@@ -26,7 +26,7 @@ export default function Footer() {
                 <ul className="current-news-list">
                     {posts.length > 0 && posts.slice(0,3).map(post => (
                         <li key={`${post._id}`}>
-                            <Link to={`/${post._id}`}>{post.title}</Link>
+                            <Link to={`/post/${post._id}`}>{post.title}</Link>
                         </li>
                     ))}
                 </ul>
