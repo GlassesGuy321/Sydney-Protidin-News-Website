@@ -34,6 +34,7 @@ export default function PostPage() {
                 <link rel="image_src" href={`${postInfo.imageLink}`} />
                 <meta property="og:image:width" content="600" />
                 <meta property="og:image:height" content="400" />
+                <meta property="og:image:secure_url" content={`${postInfo.imageLink}`} />
                 <meta property="og:url" content={`https://sydney-protidin.onrender.com/post/${postInfo._id}`} />
                 <meta property="og:type" content="website" />
                 <meta name="twitter:card" content="summary_large_image" />
