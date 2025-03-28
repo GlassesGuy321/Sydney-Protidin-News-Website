@@ -8,7 +8,8 @@ This project is a fullstack web application that used MERN:
  - **E**xpress.js - web application framework powering the backend server
  - **R**eact - Javascript User Interface Library powering the frontend as a single-page website.
  - **N**odeJS - allowing the backend to run JavaScript code outside of a web browser, enabling server-side development.
- 
+
+Check out the deployment here: [সিডনি প্রতিদিন](https://sydney-protidin.onrender.com/)
 
 # Features
 
